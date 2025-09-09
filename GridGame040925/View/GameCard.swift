@@ -6,29 +6,23 @@
 //
 
 import SwiftUI
-enum CardType {
-    case emoji
-    case number
-    case image
-}
+
 struct GameCard: View {
     
-    let cardContent: String
-    let cardType: CardType
-    let isFlipped: Bool
+    let card: GameCardModel
     var body: some View {
         VStack {
-            if isFlipped{
-                switch cardType {
-                case .emoji:
-                    Text(cardContent)
+            if card.hasMatched || card.isFlipped{
+                switch card.content {
+                case .emoji(let value):
+                    Text(value)
                         .padding(16)
-                case .number:
-                    Text(cardContent)
+                case .number(let value):
+                    Text(String(value))
                         .font(.title)
                         .padding(16)
-                case .image:
-                    Image(systemName: cardContent)
+                case .image(let systemName):
+                    Image(systemName: systemName)
                         .resizable()
                         .scaledToFit()
                 }
@@ -39,13 +33,11 @@ struct GameCard: View {
             }
         }
         .frame(width: 64, height: 64)
-        .background(.gray.opacity(0.5))
+        .background( (card.hasMatched || card.isFlipped) ? .teal.opacity(0.5) : .gray.opacity(0.5))
         .clipShape(RoundedRectangle(cornerSize: .init(width: 8, height: 8)))
     }
 }
 
 #Preview {
-    GameCard(
-        cardContent: "12", cardType: .number, isFlipped: false
-    )
+    GameCard(card: GameCardModel(content: .number(12)))
 }

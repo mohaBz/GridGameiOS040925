@@ -28,11 +28,7 @@ struct GameGrid: View {
                                         card
                                     )
                                 }) {
-                                    GameCard(
-                                        cardContent: card.cardContent,
-                                        cardType: card.cardType,
-                                        isFlipped: card.hasMatched || card.isFlipped
-                                    )
+                                    GameCard(card: card)
                                 }
                                 .buttonStyle(.plain)
                         }
